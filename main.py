@@ -61,30 +61,23 @@ class AudioMonitorApp:
             else:
                 raise  # Reraise if not the expected error
     def monitor_audio_file_access(self):
-        try:
+        # try:
             #修改按钮文字为监控中，禁用点击
             self.start_button.config(text="监控中", state=tk.DISABLED)
             monitored_file = self.audio_file_path
             while True:
                 if self.is_file_in_use(monitored_file):
                     self.trigger_qq_call()  
-        except Exception as e:
-            self.start_button.config(text="开始监控", state=tk.NORMAL) 
+        # except Exception as e:
+        #     print(f"Error occurred: {e}")
+        #     self.start_button.config(text="开始监控", state=tk.NORMAL) 
     def call(self):
         # 点击窗体中心 右键清屏
         time.sleep(1)
          # 在屏幕上找到图像
         location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.8)
         if location:
-            time.sleep(1)
-            x, y = location
-            new_y = y + 30
-            time.sleep(1)
-            pyautogui.click(x, new_y, button='right')
-            time.sleep(1)
-            clear = pyautogui.locateCenterOnScreen('./img/clear.png', confidence=0.8)
-            if clear:
-                pyautogui.click(clear)
+            
             time.sleep(1)
             pyautogui.click(location)
             print(f"Clicked on 'call' button at location: {location}")
@@ -92,27 +85,21 @@ class AudioMonitorApp:
             while True:
                 time.sleep(1)   
                 try: 
-                    called = pyautogui.locateCenterOnScreen('./img/hascalled.png', confidence=0.8)
+                    called = pyautogui.locateCenterOnScreen('./img/calling.png', confidence=0.5)
+                    if called:
+                        continue
+                except pyautogui.ImageNotFoundException as e:
+                    pass
+                try: 
+                    called = pyautogui.locateCenterOnScreen('./img/incall.png', confidence=0.8)
                     if called:
                         break
                 except pyautogui.ImageNotFoundException as e:
                     pass
                 try:
-                    response = pyautogui.locateCenterOnScreen('./img/noresponse.png', confidence=0.5)
-                    # response = pyautogui.locateCenterOnScreen('./img/refuse.png', confidence=0.8) #测试用拒绝
-                    if response:
-                        
-                        pyautogui.click(response)
-
-                        location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.8)
-                        x, y = location
-                        new_y = y + 30
-                        time.sleep(1)
-                        pyautogui.click(x, new_y, button='right')
-                        time.sleep(1)
-                        clear = pyautogui.locateCenterOnScreen('./img/clear.png', confidence=0.8)
-                        if clear:
-                            pyautogui.click(clear)
+                    location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.8)
+                    if location:
+                        pyautogui.click(location)
                         continue
                 except pyautogui.ImageNotFoundException as e:
                     pass
@@ -124,8 +111,8 @@ class AudioMonitorApp:
         # 假设QQ已经登录并且在桌面上
         time.sleep(1)
         pyautogui.hotkey('ctrl', 'alt', 'z') 
-        time.sleep(1)
-        search = pyautogui.locateCenterOnScreen('./img/searchbar.png', confidence=0.8)
+        time.sleep(2)
+        search = pyautogui.locateCenterOnScreen('./img/searchbar.png', confidence=0.5)
         if search:
             pyautogui.click(search)
             pyautogui.typewrite(self.qq_number)
@@ -141,7 +128,7 @@ class AudioMonitorApp:
 
 if __name__ == "__main__":
     #查看当前时间是否大于8月2日
-    if time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) > '2024-08-02 00:00:00':
+    if time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) > '2024-08-03 00:00:00':
         print("程序已过期，请重新下载")
         exit()
     root = tk.Tk()
