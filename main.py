@@ -75,7 +75,7 @@ class AudioMonitorApp:
         # 点击窗体中心 右键清屏
         time.sleep(1)
          # 在屏幕上找到图像
-        location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.8)
+        location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.5)
         if location:
             
             time.sleep(1)
@@ -91,13 +91,13 @@ class AudioMonitorApp:
                 except pyautogui.ImageNotFoundException as e:
                     pass
                 try: 
-                    called = pyautogui.locateCenterOnScreen('./img/incall.png', confidence=0.8)
+                    called = pyautogui.locateCenterOnScreen('./img/incall.png', confidence=0.5)
                     if called:
                         break
                 except pyautogui.ImageNotFoundException as e:
                     pass
                 try:
-                    location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.8)
+                    location = pyautogui.locateCenterOnScreen('./img/call.png', confidence=0.5)
                     if location:
                         pyautogui.click(location)
                         continue
